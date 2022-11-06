@@ -1,6 +1,7 @@
 #ifndef _INODO_
 #define _INODO_ 1
 
+
 class INodo {
     public:
         int getId() {

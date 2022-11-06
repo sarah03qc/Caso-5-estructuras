@@ -10,12 +10,11 @@ class NodoGrafo {
     private:
         INodo* dato;
         vector<Arco*>* listaArcos;
-
-    public:
-        // esto es pecado y esta malo , ponerlo private y los getters y setters
+        int distance = 0;
         bool visitado = false;
         bool procesado = false;
 
+    public:
         NodoGrafo(INodo* pDato) {
             this->dato = pDato;
             this->listaArcos = new vector<Arco*>();
@@ -39,6 +38,30 @@ class NodoGrafo {
 
         vector<Arco*>* getArcs() {
             return this->listaArcos;
+        }
+
+        bool getVisited() {
+            return visitado;
+        }
+
+        bool getProcessed() {
+            return procesado;
+        }
+
+        void setVisited(bool value) {
+            this->visitado = value;
+        }
+
+        void setProcessed(bool value) {
+            this->procesado = value;
+        }
+
+        int getDistance() {
+            return distance;
+        }
+
+        void setDistance(int valor) {
+            this->distance = valor;
         }
 };
 

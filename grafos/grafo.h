@@ -6,6 +6,8 @@
 #include <map>
 #include <queue>
 #include "Arco.h"
+#include <iostream>
+#define INFINITO 99999999
 
 using namespace std;
 
@@ -19,8 +21,8 @@ class Grafo {
         void resetNodes() {
             for (std::vector<NodoGrafo*>::iterator current = listaNodos.begin() ; current != listaNodos.end(); ++current) {
                 NodoGrafo* actual = (*current);
-                actual->procesado = false;
-                actual->visitado = false;
+                actual->setProcessed(false);
+                actual->setVisited(false);
             }
         }
 
@@ -28,7 +30,7 @@ class Grafo {
             NodoGrafo* result = nullptr;
             for (std::vector<NodoGrafo*>::iterator current = listaNodos.begin() ; current != listaNodos.end(); ++current) {
                 NodoGrafo* actual = (*current);
-                if (!actual->visitado) {
+                if (!actual->getVisited()) {
                     result = actual;
                     break;
                 }
@@ -100,14 +102,14 @@ class Grafo {
 
             NodoGrafo* puntoPartida = this->getNodo(pOrigen->getId());
             nodosProcesados.push(puntoPartida);
-            puntoPartida->procesado = true;
+            puntoPartida->setProcessed(true);
             
             do {
                 while (!nodosProcesados.empty()) {
                     NodoGrafo* actual = nodosProcesados.front();
                     nodosProcesados.pop();
 
-                    actual->visitado = true;
+                    actual->setVisited(true);
                     visitados++;
                     result.push_back(actual->getInfo());
 
@@ -116,9 +118,9 @@ class Grafo {
                     for (int indiceArcos=0; indiceArcos<adyacentes->size(); ++indiceArcos) {
                         Arco* arco = adyacentes->at(indiceArcos);
                         NodoGrafo* adyacente = (NodoGrafo*)arco->getDestino();
-                        if (!adyacente->procesado) {
+                        if (!adyacente->getProcessed()) {
                             nodosProcesados.push(adyacente);
-                            adyacente->procesado = true;
+                            adyacente->setProcessed(true);
                         }
                     }
                 }
@@ -126,7 +128,7 @@ class Grafo {
                 if (visitados<this->getSize()) {
                     puntoPartida = this->findNotVisited();
                     nodosProcesados.push(puntoPartida);
-                    puntoPartida->procesado = true;
+                    puntoPartida->setProcessed(true);
                 }
             } while (visitados<this->getSize()); 
 
@@ -139,6 +141,36 @@ class Grafo {
             vector<INodo> result;
 
             return result;
+        }
+
+        void dijkstra() {
+            vector<NodoGrafo*> visited;
+            vector<NodoGrafo*> unvisited;
+            for(int i = 0; i < listaNodos.size(); i ++) {
+                if(i != 0) {
+                    //dejar la primera en cero
+                    //el resto a infinito
+                    listaNodos[i]->setDistance(INFINITO);
+                }
+                listaNodos[i]->setVisited(false);
+                unvisited.push_back(listaNodos[i]);
+            }
+            NodoGrafo *start;
+            NodoGrafo *current;
+            while(unvisited.size() > 0) {
+                int cont = 0;
+                for(std::map<int, NodoGrafo *>::iterator es=hashNodos.begin(); es!=hashNodos.end(); ++es) {
+                    if(cont == 0) {
+                        start = es->second;  //para tomar el primer valor del map, o sea el mas pequenio
+                    }
+                    cont++;
+                }
+                Arco* smallest = start->getArcs()[0][0]; //por que dos veces ? YA LE PREGUNTE AL PROFE :/
+                for(int i = 0; i < start->getArcs()->size(); i++) {
+                    start->getArcs()[i];
+                    //esta hasta aca
+                }   
+            }
         }
 
         void printCounters() {
