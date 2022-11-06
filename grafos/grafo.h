@@ -157,6 +157,9 @@ class Grafo {
             }
             NodoGrafo *start;
             NodoGrafo *current;
+            Arco* smallest = start->getArcs()->at(0); 
+            Arco* arcActual;
+            int distancia = 0;
             while(unvisited.size() > 0) {
                 int cont = 0;
                 for(std::map<int, NodoGrafo *>::iterator es=hashNodos.begin(); es!=hashNodos.end(); ++es) {
@@ -166,19 +169,28 @@ class Grafo {
                     } else {
                         break;
                     }
-                    
                 }
-                Arco* smallest = start->getArcs()->at(0); 
-                Arco* arcActual;
-                for(int i = 1; i < start->getArcs()->size(); i++) {
+                for(int i = 0; i < start->getArcs()->size(); i++) {
                     arcActual = smallest;
                     smallest = start->getArcs()->at(i);
                     if(smallest->getPeso() > arcActual->getPeso()) {
                         smallest = arcActual;   //para tomar el de menor peso 
-                        current = smallest->getDestino();  //hmm es que destino no retorna un NodoGrafo*, retorna void* ????
+                        current = static_cast<NodoGrafo*> (smallest->getDestino());  
+                    }    
+                } 
+                for(int i = 0; i < current->getArcs()->size(); i++) {
+                    NodoGrafo *temporal;
+                    if(!(static_cast<NodoGrafo*> (current->getArcs()->at(i)->getDestino())->getVisited())) {
+                        //aca hay que ir hacia atras calculando las distancias de cada de los nodos que acabamos
+                        //de recorrer e ir sumando dichas distancias en variable local distancia
+                        //when temporal == start, si variable distancia es menor que la distancia actual del nodo
+                        //(que en muchos casos puede ser infinito) then la variable distancia se le asigna al 
+                        //vecino de current (current->getArcs()->at(i)->getDestino())
+                        //en setDistance 
                     }
-                    
-                }   
+                }
+                current->setDistance(min(current->getDistance(), smallest->getPeso())); //cuando ya tenemos el mas pequeno lo asignamos  
+                //pero preguntando si es menor que la distancia actual, que aveces va a ser infinito y sera reemplazado
             }
         }
 
