@@ -162,13 +162,22 @@ class Grafo {
                 for(std::map<int, NodoGrafo *>::iterator es=hashNodos.begin(); es!=hashNodos.end(); ++es) {
                     if(cont == 0) {
                         start = es->second;  //para tomar el primer valor del map, o sea el mas pequenio
+                        cont++;
+                    } else {
+                        break;
                     }
-                    cont++;
+                    
                 }
-                Arco* smallest = start->getArcs()[0][0]; //por que dos veces ? YA LE PREGUNTE AL PROFE :/
-                for(int i = 0; i < start->getArcs()->size(); i++) {
-                    start->getArcs()[i];
-                    //esta hasta aca
+                Arco* smallest = start->getArcs()->at(0); 
+                Arco* arcActual;
+                for(int i = 1; i < start->getArcs()->size(); i++) {
+                    arcActual = smallest;
+                    smallest = start->getArcs()->at(i);
+                    if(smallest->getPeso() > arcActual->getPeso()) {
+                        smallest = arcActual;   //para tomar el de menor peso 
+                        current = smallest->getDestino();  //hmm es que destino no retorna un NodoGrafo*, retorna void* ????
+                    }
+                    
                 }   
             }
         }
