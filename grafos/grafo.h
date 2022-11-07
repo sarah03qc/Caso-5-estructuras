@@ -144,55 +144,54 @@ class Grafo {
         }
 
         void dijkstra() {
-            vector<NodoGrafo*> visited;
-            vector<NodoGrafo*> unvisited;
+            //1. Mark all nodes as unvisited.
             for(int i = 0; i < listaNodos.size(); i ++) {
                 if(i != 0) {
-                    //dejar la primera en cero
-                    //el resto a infinito
+                    //2. Mark the initially selected node with the current distance of 0 and the rest with infinity.
                     listaNodos[i]->setDistance(INFINITO);
                 }
                 listaNodos[i]->setVisited(false);
-                unvisited.push_back(listaNodos[i]);
             }
-            NodoGrafo *start;
-            NodoGrafo *current;
-            Arco* smallest = start->getArcs()->at(0); 
-            Arco* arcActual;
-            int distancia = 0;
-            while(unvisited.size() > 0) {
-                int cont = 0;
-                for(std::map<int, NodoGrafo *>::iterator es=hashNodos.begin(); es!=hashNodos.end(); ++es) {
-                    if(cont == 0) {
-                        start = es->second;  //para tomar el primer valor del map, o sea el mas pequenio
-                        cont++;
-                    } else {
-                        break;
+            //3. Set the initial node as the current node.
+            NodoGrafo *currentNode;
+            currentNode = hashNodos.begin()->second;
+            
+            //4. For the current node, consider all of its unvisited neighbors and calculate their distances by 
+            //adding the current distance of the current node to the weight of the edge that connects the current 
+            //node to the neighboring node.
+            for(int i = 0; i < listaNodos.size(); i++) {
+                for(int j = 0; j < currentNode->getArcs()->size(); i++) {
+                    int newDistance = 0;
+                    if(!(static_cast<NodoGrafo*> (currentNode->getArcs()->at(j)->getDestino())->getVisited())) {
+                        newDistance = currentNode->getDistance() + currentNode->getArcs()->at(j)->getPeso();
+
+                        //5. Compare the newly calculated distance to the current distance assigned to the neighboring 
+                        //node. If it is smaller, set it as the new current distance of the neighboring node otherwise, 
+                        //keep the previous weight.
+                        if(newDistance < (static_cast<NodoGrafo*> (currentNode->getArcs()->at(j)->getDestino()))->getDistance()) {
+                            (static_cast<NodoGrafo*> (currentNode->getArcs()->at(j)->getDestino()))->setDistance(newDistance);
+                        }
                     }
                 }
-                for(int i = 0; i < start->getArcs()->size(); i++) {
+                //6. When you’re done considering all of the unvisited neighbors of the current node, mark the current 
+                //node as visited.
+                currentNode->setVisited(true);
+
+                //7. Select the unvisited node that is marked with the smallest distance, set it as the new current node, 
+                //and go back to step 4.
+                Arco* smallest = currentNode->getArcs()->at(0); 
+                Arco* arcActual;
+                for(int p = 0; p < currentNode->getArcs()->size(); p++) {
                     arcActual = smallest;
-                    smallest = start->getArcs()->at(i);
-                    if(smallest->getPeso() > arcActual->getPeso()) {
-                        smallest = arcActual;   //para tomar el de menor peso 
-                        current = static_cast<NodoGrafo*> (smallest->getDestino());  
+                    smallest = currentNode->getArcs()->at(p);
+                    if((static_cast<NodoGrafo*> (smallest->getDestino()))->getDistance() > (static_cast<NodoGrafo*> (arcActual->getDestino()))->getDistance()) {
+                        smallest = arcActual;   
                     }    
-                } 
-                for(int i = 0; i < current->getArcs()->size(); i++) {
-                    NodoGrafo *temporal;
-                    if(!(static_cast<NodoGrafo*> (current->getArcs()->at(i)->getDestino())->getVisited())) {
-                        //aca hay que ir hacia atras calculando las distancias de cada de los nodos que acabamos
-                        //de recorrer e ir sumando dichas distancias en variable local distancia
-                        //when temporal == start, si variable distancia es menor que la distancia actual del nodo
-                        //(que en muchos casos puede ser infinito) then la variable distancia se le asigna al 
-                        //vecino de current (current->getArcs()->at(i)->getDestino())
-                        //en setDistance 
-                    }
                 }
-                current->setDistance(min(current->getDistance(), smallest->getPeso())); //cuando ya tenemos el mas pequeno lo asignamos  
-                //pero preguntando si es menor que la distancia actual, que aveces va a ser infinito y sera reemplazado
+                currentNode = static_cast<NodoGrafo*> (smallest->getDestino());
             }
         }
+
 
         void printCounters() {
             for (std::vector<NodoGrafo*>::iterator current = listaNodos.begin() ; current != listaNodos.end(); ++current) {
