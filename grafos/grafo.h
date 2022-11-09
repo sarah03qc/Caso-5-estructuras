@@ -49,6 +49,7 @@ class Grafo {
 
         void addNode(INodo* pNodo) {
             NodoGrafo* nuevoNodo = new NodoGrafo(pNodo);
+            cout << "Agregando: " << nuevoNodo->getInfo()->getId() << endl;
             this->listaNodos.push_back(nuevoNodo);
             hashNodos.insert(pair<int,NodoGrafo*>(pNodo->getId(),nuevoNodo));
         }
@@ -151,24 +152,30 @@ class Grafo {
                     listaNodos[i]->setDistance(INFINITO);
                 }
                 listaNodos[i]->setVisited(false);
+                cout << listaNodos[i]->getInfo()->getId() << " se ha puesto como unvisited " << endl;
             }
             //3. Set the initial node as the current node.
             NodoGrafo *currentNode;
             currentNode = hashNodos.begin()->second;
+            currentNode->setDistance(0);
+            cout << "Distancia de primer node actualizada a 0, node es " << currentNode->getInfo()->getId() << endl;
             
             //4. For the current node, consider all of its unvisited neighbors and calculate their distances by 
             //adding the current distance of the current node to the weight of the edge that connects the current 
             //node to the neighboring node.
             for(int i = 0; i < listaNodos.size(); i++) {
-                for(int j = 0; j < currentNode->getArcs()->size(); i++) {
+                for(int j = 0; j < currentNode->getArcs()->size(); j++) {
                     int newDistance = 0;
                     if(!(static_cast<NodoGrafo*> (currentNode->getArcs()->at(j)->getDestino())->getVisited())) {
                         newDistance = currentNode->getDistance() + currentNode->getArcs()->at(j)->getPeso();
+                        cout << "currentNode is " << currentNode->getInfo()->getId() << endl;
+                        cout << "newDistance from currentNode to neighbor: " << static_cast<NodoGrafo*> (currentNode->getArcs()->at(j)->getDestino())->getInfo()->getId() << " is: " << newDistance << endl;
 
                         //5. Compare the newly calculated distance to the current distance assigned to the neighboring 
                         //node. If it is smaller, set it as the new current distance of the neighboring node otherwise, 
                         //keep the previous weight.
                         if(newDistance < (static_cast<NodoGrafo*> (currentNode->getArcs()->at(j)->getDestino()))->getDistance()) {
+                            cout << "La nueva distancia es menor que la actual, se cambia" << endl;
                             (static_cast<NodoGrafo*> (currentNode->getArcs()->at(j)->getDestino()))->setDistance(newDistance);
                         }
                     }
@@ -176,9 +183,11 @@ class Grafo {
                 //6. When you’re done considering all of the unvisited neighbors of the current node, mark the current 
                 //node as visited.
                 currentNode->setVisited(true);
+                cout << currentNode->getInfo()->getId() << " ha sido visitado" << endl;
 
                 //7. Select the unvisited node that is marked with the smallest distance, set it as the new current node, 
                 //and go back to step 4.
+                
                 Arco* smallest = currentNode->getArcs()->at(0); 
                 Arco* arcActual;
                 for(int p = 0; p < currentNode->getArcs()->size(); p++) {
@@ -189,6 +198,7 @@ class Grafo {
                     }    
                 }
                 currentNode = static_cast<NodoGrafo*> (smallest->getDestino());
+                cout << "De sus nodos vecinos, se reemplaza por el menor, que es: " << currentNode->getInfo()->getId() << endl;
             }
         }
 

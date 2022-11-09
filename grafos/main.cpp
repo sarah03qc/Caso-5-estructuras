@@ -10,6 +10,32 @@ using namespace std;
 
 int main() {
 
+    Grafo grafo1(true);
+
+    INodo *node1 = new INodo();
+    INodo *node2 = new INodo();
+    INodo *node3 = new INodo();
+    INodo *node4 = new INodo();
+
+    node1->setId(8);
+    node2->setId(2);
+    node3->setId(5);
+    node4->setId(1);
+
+    grafo1.addNode(node1);
+    grafo1.addNode(node2);
+    grafo1.addNode(node3);
+    grafo1.addNode(node4);
+
+    grafo1.addArc(node1, node2, 7);
+    grafo1.addArc(node2, node3, 5);
+    grafo1.addArc(node3, node4, 15);
+    grafo1.addArc(node4, node2, 3);
+    grafo1.addArc(node1, node4, 2);
+
+    grafo1.dijkstra();
+
+/*
     // Ejercicio #1: 
     Grafo grafo1(true);
 
@@ -84,5 +110,6 @@ int main() {
     }
 
     cout << "termino bien" << endl;
+*/
 
 }
