@@ -12,6 +12,7 @@ class Node {
     private:
         T *data;
         bool isLeaf;
+        Node **ptr;
         T *key;
         int size;
         Node *left;
@@ -20,6 +21,7 @@ class Node {
     public:
         Node() {
             key = new T[M];
+            ptr = new Node *[M + 1];
             data = NULL;
             left = NULL;
             right = NULL;   
@@ -34,6 +36,14 @@ class Node {
 
         T* getKeys() {
             return key;
+        }
+
+        int getSize() {
+            return size;
+        }
+
+        void setSize(int size) {
+            this->size = size;
         }
 
         T* getData() {
@@ -68,6 +78,14 @@ class Node {
         void setRight(Node<T> *pValue) {  
             this->right = pValue;      
         }   
+
+        Node** getPtr() {    
+            return ptr;     
+        }
+
+        void setPtr(Node<T> **pValue) {
+            this->ptr = ptr;
+        }
 };
 
 #endif

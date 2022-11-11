@@ -22,7 +22,37 @@ class TreeBp {   //BASADO EN EL AVL TREE, ESTAMOS INTENTANDO ADAPTARLO A SER B+
         void insert(T *data) {   //NOS ESTAMOS BASANDO EN EL ALGORITMO COMENTADO ABAJO
             if(root == NULL) {
                 root = new Node<T>();
-                root->getKeys();
+                root->getKeys()[0] = data;
+                root->setSize(1);
+            } else {
+                Node<T> *temp = root;
+                Node<T> *parent;
+                while(temp->isLeaf == false) {
+                    parent = temp;
+                    for(int i = 0; i < temp->getSize(); i++) {
+                        if(data < temp->getKeys()[i]) {
+                            temp = temp->getPtr()[i];
+                            break;
+                        }
+                        if(i == temp->getSize() - 1) {
+                            temp = temp->getPtr()[i + 1];
+                            break;
+                        }
+                    }
+                }
+                if(temp->getSize() < M) {
+                    int i = 0;
+                    while(data > temp->getKeys()[i] && i < temp->getSize()) {
+                        i++;
+                    }
+                    for(int j = temp->getSize(); j > i; j--) {
+                        temp->getKeys()[j] = temp->getKeys()[j - 1];
+                    }
+                    temp->getKeys()[i] = data;
+                    temp->setSize(temp->getSize() + 1);
+                    temp->getPtr()[temp->getSize()] = temp->getPtr()[temp->getSize() - 1];
+                    temp->getPtr()[temp->getSize() - 1] = NULL;
+                }
             }
         }
 
@@ -62,7 +92,7 @@ void BPTree::insert(int x) {
       cursor->key[i] = x;
       cursor->size++;
       cursor->ptr[cursor->size] = cursor->ptr[cursor->size - 1];
-      cursor->ptr[cursor->size - 1] = NULL;
+      cursor->ptr[cursor->size - 1] = NULL;  ////////////////////////////////////////////////////VAMOS POR ACA *******
     } else {
       Node *newLeaf = new Node;
       int virtualNode[MAX + 1];
@@ -134,8 +164,6 @@ void BPTree::insert(int x) {
                 delete toDestroy;
             }
         }
-
-        
 };
 
 #endif
