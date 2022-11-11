@@ -12,26 +12,32 @@ int main() {
 
     Grafo grafo1(true);
 
+    INodo *node0 = new INodo();
     INodo *node1 = new INodo();
     INodo *node2 = new INodo();
     INodo *node3 = new INodo();
     INodo *node4 = new INodo();
 
-    node1->setId(8);
+    node0->setId(0);
+    node1->setId(1);
     node2->setId(2);
-    node3->setId(5);
-    node4->setId(1);
+    node3->setId(3);
+    node4->setId(4);
 
+    grafo1.addNode(node0);
     grafo1.addNode(node1);
     grafo1.addNode(node2);
     grafo1.addNode(node3);
     grafo1.addNode(node4);
 
-    grafo1.addArc(node1, node2, 7);
-    grafo1.addArc(node2, node3, 5);
-    grafo1.addArc(node3, node4, 15);
-    grafo1.addArc(node4, node2, 3);
-    grafo1.addArc(node1, node4, 2);
+    grafo1.addArc(node0, node1, 2);
+    grafo1.addArc(node0, node2, 1);
+    grafo1.addArc(node1, node3, 20);
+    grafo1.addArc(node1, node2, 3);
+    grafo1.addArc(node4, node1, 13);
+    grafo1.addArc(node2, node4, 8);
+    grafo1.addArc(node4, node3, 2);
+    grafo1.addArc(node0, node4, 14);
 
     grafo1.dijkstra();
 

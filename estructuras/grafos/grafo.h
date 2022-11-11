@@ -175,7 +175,7 @@ class Grafo {
                         //node. If it is smaller, set it as the new current distance of the neighboring node otherwise, 
                         //keep the previous weight.
                         if(newDistance < (static_cast<NodoGrafo*> (currentNode->getArcs()->at(j)->getDestino()))->getDistance()) {
-                            cout << "La nueva distancia es menor que la actual, se cambia" << endl;
+                            cout << "La nueva distancia: " << newDistance << " es menor que la actual: " << (static_cast<NodoGrafo*> (currentNode->getArcs()->at(j)->getDestino()))->getDistance() << " se cambia" << endl;
                             (static_cast<NodoGrafo*> (currentNode->getArcs()->at(j)->getDestino()))->setDistance(newDistance);
                         }
                     }
