@@ -2,6 +2,7 @@
 #include <bits/stdc++.h>
 #include <iostream>
 #include <algorithm>
+#include <boost/lexical_cast.hpp>
 
 #ifndef TREEBP 
 
@@ -59,7 +60,7 @@ class TreeBp {   //BASADO EN EL AVL TREE, ESTAMOS INTENTANDO ADAPTARLO A SER B+
                     virtualNode[i] = temp->getKeys()[i];
                   }
                   int i = 0;
-                  while(data > virtualNode[i] && data < (string) M) {
+                  while(data > virtualNode[i] && data < boost::lexical_cast<T>(M)) {
                     i++;
                   }
                   for(int j = M + 1; j > i; j--) {
@@ -109,7 +110,7 @@ class TreeBp {   //BASADO EN EL AVL TREE, ESTAMOS INTENTANDO ADAPTARLO A SER B+
             temp->getPtr()[i + 1] = child;
           } else {
             Node<T> *newInternal = new Node<T>();
-            int virtualKey[M + 1];
+            T virtualKey[M + 1];
             Node<T> *virtualPtr[M + 2];
             for(int i = 0; i < M; i++) {
               virtualKey[i] = temp->getKeys()[i];
