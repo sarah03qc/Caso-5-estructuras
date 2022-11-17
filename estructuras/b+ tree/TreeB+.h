@@ -52,6 +52,42 @@ class TreeBp {   //BASADO EN EL AVL TREE, ESTAMOS INTENTANDO ADAPTARLO A SER B+
                     temp->setSize(temp->getSize() + 1);
                     temp->getPtr()[temp->getSize()] = temp->getPtr()[temp->getSize() - 1];
                     temp->getPtr()[temp->getSize() - 1] = NULL;
+                } else {
+                  Node<T> *newLeaf = new Node<T>();
+                  int virtualNode[M + 1];
+                  for(int i = 0; i < M; i++) {
+                    virtualNode[i] = temp->getKeys()[i];
+                  }
+                  int i = 0;
+                  while(data > virtualNode[i] && data < M) {
+                    i++;
+                  }
+                  for(int j = M + 1; j > i; j--) {
+                    virtualNode[j] = virtualNode[j - 1];
+                  }
+                  virtualNode[i] = data;
+                  newLeaf->isLeaf = true;
+                  temp->setSize((M + 1)/2);
+                  newLeaf->setSize(M + 1 - (M + 1)/2);
+                  temp->getPtr()[temp->getSize()] = newLeaf;
+                  newLeaf->getPtr()[newLeaf->getSize()] = temp->getPtr()[M];
+                  temp->getPtr()[M] = NULL;
+                  for(int i = 0; i < temp->getSize(); i++) {
+                    temp->getKeys()[i] = virtualNode[i];
+                  }
+                  for(int i = 0, int j = temp->getSize(); i < newLeaf->getSize(); i++, j++) {
+                    newLeaf->getKeys()[i] = virtualNode[j];
+                  }
+                  if(temp == root) {
+                    Node<T> *newRoot = new Node<T>();
+                    newRoot->getKeys()[0] = newLeaf->getKeys()[0];
+                    newRoot->getPtr()[0] = temp;
+                    newRoot->getPtr()[1] = newLeaf;
+                    newRoot->setSize(1);
+                    root = newRoot;
+                  } else {
+                    insertInternal(newLeaf->getKeys()[0], parent, newLeaf);
+                  }
                 }
             }
         }
@@ -60,78 +96,10 @@ class TreeBp {   //BASADO EN EL AVL TREE, ESTAMOS INTENTANDO ADAPTARLO A SER B+
 //tutorial y todo en esa pagina
 /*        
 // Insert Operation
-void BPTree::insert(int x) {
-  if (root == NULL) {
-    root = new Node;
-    root->key[0] = x;
-    root->IS_LEAF = true;
-    root->size = 1;
-  } else {
-    Node *cursor = root;
-    Node *parent;
-    while (cursor->IS_LEAF == false) {
-      parent = cursor;
-      for (int i = 0; i < cursor->size; i++) {
-        if (x < cursor->key[i]) {
-          cursor = cursor->ptr[i];
-          break;
-        }
-        if (i == cursor->size - 1) {
-          cursor = cursor->ptr[i + 1];
-          break;
-        }
-      }
-    }
-    if (cursor->size < MAX) {
-      int i = 0;
-      while (x > cursor->key[i] && i < cursor->size)
-        i++;
-      for (int j = cursor->size; j > i; j--) {
-        cursor->key[j] = cursor->key[j - 1];
-      }
-      cursor->key[i] = x;
-      cursor->size++;
-      cursor->ptr[cursor->size] = cursor->ptr[cursor->size - 1];
-      cursor->ptr[cursor->size - 1] = NULL;  ////////////////////////////////////////////////////VAMOS POR ACA *******
-    } else {
-      Node *newLeaf = new Node;
-      int virtualNode[MAX + 1];
-      for (int i = 0; i < MAX; i++) {
-        virtualNode[i] = cursor->key[i];
-      }
-      int i = 0, j;
-      while (x > virtualNode[i] && i < MAX)
-        i++;
-      for (int j = MAX + 1; j > i; j--) {
-        virtualNode[j] = virtualNode[j - 1];
-      }
-      virtualNode[i] = x;
-      newLeaf->IS_LEAF = true;
-      cursor->size = (MAX + 1) / 2;
-      newLeaf->size = MAX + 1 - (MAX + 1) / 2;
-      cursor->ptr[cursor->size] = newLeaf;
-      newLeaf->ptr[newLeaf->size] = cursor->ptr[MAX];
-      cursor->ptr[MAX] = NULL;
-      for (i = 0; i < cursor->size; i++) {
-        cursor->key[i] = virtualNode[i];
-      }
-      for (i = 0, j = cursor->size; i < newLeaf->size; i++, j++) {
-        newLeaf->key[i] = virtualNode[j];
-      }
-      if (cursor == root) {
-        Node *newRoot = new Node;
-        newRoot->key[0] = newLeaf->key[0];
-        newRoot->ptr[0] = cursor;
-        newRoot->ptr[1] = newLeaf;
-        newRoot->IS_LEAF = false;
-        newRoot->size = 1;
-        root = newRoot;
-      } else {
-        insertInternal(newLeaf->key[0], parent, newLeaf);
-      }
-    }
-  }
-}
+      
+
+
+      
 */
 
 
