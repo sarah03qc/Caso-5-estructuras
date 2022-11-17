@@ -2,7 +2,6 @@
 #include <string>
 #include <stdio.h>
 #include <curl/curl.h>
-#include "C:\Windows\System32\curl.exe"
 #include "json.hpp"
 
 using namespace std;

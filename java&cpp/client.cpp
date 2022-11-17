@@ -10,7 +10,7 @@ using namespace std;
 int main() {
 
 	int sockfd; // socket file descriptor 
-	int portno; // port number
+	int portno = 4447; // port number
 	struct sockaddr_in serv_addr;
 	struct hostent *server;
 	
