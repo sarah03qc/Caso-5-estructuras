@@ -19,7 +19,7 @@ class TreeBp {   //BASADO EN EL AVL TREE, ESTAMOS INTENTANDO ADAPTARLO A SER B+
             quantity = 0;
         }
 
-        void insert(T *data) {   //NOS ESTAMOS BASANDO EN EL ALGORITMO COMENTADO ABAJO
+        void insert(T data) {   //NOS ESTAMOS BASANDO EN EL ALGORITMO COMENTADO ABAJO
             if(root == NULL) {
                 root = new Node<T>();
                 root->getKeys()[0] = data;
@@ -27,7 +27,7 @@ class TreeBp {   //BASADO EN EL AVL TREE, ESTAMOS INTENTANDO ADAPTARLO A SER B+
             } else {
                 Node<T> *temp = root;
                 Node<T> *parent;
-                while(temp->isLeaf == false) {
+                while(temp->getIsLeaf() == false) {
                     parent = temp;
                     for(int i = 0; i < temp->getSize(); i++) {
                         if(data < temp->getKeys()[i]) {
@@ -54,19 +54,19 @@ class TreeBp {   //BASADO EN EL AVL TREE, ESTAMOS INTENTANDO ADAPTARLO A SER B+
                     temp->getPtr()[temp->getSize() - 1] = NULL;
                 } else {
                   Node<T> *newLeaf = new Node<T>();
-                  int virtualNode[M + 1];
+                  T virtualNode[M + 1];
                   for(int i = 0; i < M; i++) {
                     virtualNode[i] = temp->getKeys()[i];
                   }
                   int i = 0;
-                  while(data > virtualNode[i] && data < M) {
+                  while(data > virtualNode[i] && data < (string) M) {
                     i++;
                   }
                   for(int j = M + 1; j > i; j--) {
                     virtualNode[j] = virtualNode[j - 1];
                   }
                   virtualNode[i] = data;
-                  newLeaf->isLeaf = true;
+                  newLeaf->setIsLeaf(true);
                   temp->setSize((M + 1)/2);
                   newLeaf->setSize(M + 1 - (M + 1)/2);
                   temp->getPtr()[temp->getSize()] = newLeaf;
@@ -75,7 +75,7 @@ class TreeBp {   //BASADO EN EL AVL TREE, ESTAMOS INTENTANDO ADAPTARLO A SER B+
                   for(int i = 0; i < temp->getSize(); i++) {
                     temp->getKeys()[i] = virtualNode[i];
                   }
-                  for(int i = 0, int j = temp->getSize(); i < newLeaf->getSize(); i++, j++) {
+                  for(int i = 0, j = temp->getSize(); i < newLeaf->getSize(); i++, j++) {
                     newLeaf->getKeys()[i] = virtualNode[j];
                   }
                   if(temp == root) {
@@ -92,17 +92,89 @@ class TreeBp {   //BASADO EN EL AVL TREE, ESTAMOS INTENTANDO ADAPTARLO A SER B+
             }
         }
 
+        void insertInternal(T data, Node<T> *temp, Node<T> *child) {
+          if(temp->getSize() < M) {
+            int i = 0;
+            while(data > temp->getKeys()[i] && i < temp->getSize()) {
+              i++;
+            }
+            for(int j = temp->getSize(); j > i; j--) {
+              temp->getKeys()[j] = temp->getKeys()[j - 1];
+            }
+            for(int j = temp->getSize() + 1; j > i; j--) {
+              temp->getPtr()[j] = temp->getPtr()[j - 1];
+            }
+            temp->getKeys()[i] = data;
+            temp->setSize(temp->getSize() + 1);
+            temp->getPtr()[i + 1] = child;
+          } else {
+            Node<T> *newInternal = new Node<T>();
+            int virtualKey[M + 1];
+            Node<T> *virtualPtr[M + 2];
+            for(int i = 0; i < M; i++) {
+              virtualKey[i] = temp->getKeys()[i];
+            }
+            for(int i = 0; i < M + 1; i++) {
+              virtualPtr[i] = temp->getPtr()[i];
+            }
+            int i = 0, j;
+            while(data > virtualKey[i] && i < M) {
+              i++;
+            }
+            for(int j = M + 1; j > i; j--) {
+              virtualKey[j] = virtualKey[j - 1];
+            }
+            for(int j = M + 2; j > i + 1; j--) {
+              virtualPtr[j] = virtualPtr[j - 1];
+            }
+            virtualPtr[i + 1] = child;
+            newInternal->setIsLeaf(false);
+            temp->setSize((M + 1)/2);
+            newInternal->setSize(M - (M + 1)/2);
+            for(int i = 0, j = temp->getSize() + 1; i < newInternal->getSize(); i++, j++) {
+              newInternal->getKeys()[i] = virtualKey[j];
+            }
+            for(int i = 0, j = temp->getSize() + 1; i < newInternal->getSize() + 1; i++, j++) {
+              newInternal->getPtr()[i] = virtualPtr[j];
+            }
+            if(temp == root) {
+              Node<T> *newRoot = new Node<T>;
+              newRoot->getKeys()[0] = temp->getKeys()[temp->getSize()];
+              newRoot->getPtr()[0] = temp;
+              newRoot->getPtr()[1] = newInternal;
+              newRoot->setIsLeaf(false);
+              newRoot->setSize(1);
+              root = newRoot;
+            } else {
+              insertInternal(temp->getKeys()[temp->getSize()], findParent(root, temp), newInternal);
+            }
+          }
+        }
+
+        Node<T>* findParent(Node<T> *temp, Node<T> *child) {
+          Node<T> *parent;
+          if(temp->getIsLeaf() || (temp->getPtr()[0])->getIsLeaf()) {
+            return NULL;
+          }
+          for(int i = 0; i < temp->getSize() + 1; i++) {
+            if(temp->getPtr()[i] == child) {
+              parent = temp;
+              return parent;
+            } else {
+              parent = findParent(temp->getPtr()[i], child);
+              if(parent != NULL) {
+                return parent;
+              }
+            }
+          } 
+          return parent;
+        }
+
 //ALGORITMO SACADO DE: https://www.programiz.com/dsa/insertion-on-a-b-plus-tree
 //tutorial y todo en esa pagina
 /*        
-// Insert Operation
-      
 
-
-      
 */
-
-
         Node<T>* getRoot() {
             return this->root;
         }
