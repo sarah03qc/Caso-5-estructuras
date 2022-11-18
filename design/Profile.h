@@ -37,6 +37,9 @@ class Profile {
                 this->nickname = pnickname; 
                 if(password1 == password2) {
                     this->password = password1;
+
+                    // luego de verificar los datos del usuario, llamamos al metodo de matcher para
+                    // que busque los
                 } else {
                     cout << "Sus contrasenas no coinciden" << endl;
                 }
@@ -102,6 +105,10 @@ class Profile {
     string getDemanda(){
         return this->demanda;
 
+    }
+
+    string getNickname(){
+        return this->nickname;
     }
 
     string getOferta(){

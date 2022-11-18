@@ -2,8 +2,9 @@
 #include <iostream>
 #include <string>
 #include <sstream>
-#include "TreeB+.h"
 #include "Node.h"
+#include "TreeB+.h"
+
 
 using namespace std;
 

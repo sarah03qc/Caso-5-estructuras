@@ -3,6 +3,7 @@
 #include <regex>
 #include <vector>
 #include "Profile.h"
+#include "../estructuras/b+ tree/TreeB+.h"
 
 #define OFERTA 0
 #define DEMANDA 1
@@ -20,6 +21,7 @@
 
 class Match{
     public:
+    /*
         vector<string> strKeyWords(string pString){
             // se recibe el string de oferta o demanda y se acorta eliminando las palabras que sean menores o iguales
             // a tres letras, dejando asi palabras que sean significantes para el match
@@ -61,7 +63,7 @@ class Match{
             return esMatch;
         }
 
-    void matcher(Profile perfil){
+    void matcher(Profile* perfil){
         // se compara primero la oferta de este perfil con todas las demandas de todos los usuarios registrados
         // si se hace match entonces en cada perfil se agrega el match correspondiente
         // lo mismo oara la demanda
@@ -94,8 +96,32 @@ class Match{
                 
             }
 
-        */
+        
     }
+    */
+
+    // este algoritmo es mas como lo que pide el profe
+    void match(Profile* pPerfil){
+        // nickname de partida
+        string nickName = pPerfil->getNickname();
+        // determina si va a analizar oferta o demanda de dicho nickname
+        if(pPerfil->getTieneOferta()){
+            /*
+             luego procede a crear un árbol B+ de orden M usando como índice fracciones de las palabras 
+             presentes en el texto, insertando en el bloque de datos la referencia al nickname respectivo
+            */
+           TreeBp arbolB = new TreeBp();
+
+        }
+        else if (pPerfil->getTieneDemanda()){
+
+        }
+
+    }
+     
+
+
+
 
 };
 
