@@ -4,13 +4,15 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+//#define DEFAULT_BUFLEN 512
+//#define DEFAULT_PORT "6881" 
 
 public class server
 {
     public static void main(String[] args) throws Exception {
         ServerSocket serverSocket = null; 
         Socket clientSocket = null;
-        serverSocket = new ServerSocket(4447); // 4447 is port number
+        serverSocket = new ServerSocket(6881); // 4447 is port number
         clientSocket = serverSocket.accept(); // blocks and listen until a connection is made. 
 
         BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream())); 

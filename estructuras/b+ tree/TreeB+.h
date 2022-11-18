@@ -171,21 +171,26 @@ class TreeBp {   //BASADO EN EL AVL TREE, ESTAMOS INTENTANDO ADAPTARLO A SER B+
           return parent;
         }
 
+        void recorrer(Node<T> *temp) {
+          if(temp != NULL) {
+            for(int i = 0; i < temp->getSize(); i++) {
+              cout << temp->getKeys()[i] << " ";
+            }
+            cout << "\n";
+            if(temp->getIsLeaf() != true) {
+              for(int i = 0; i < temp->getSize() + 1; i++) {
+                recorrer(temp->getPtr()[i]);
+              }
+            }
+          }
+        }
+
 //ALGORITMO SACADO DE: https://www.programiz.com/dsa/insertion-on-a-b-plus-tree
 //tutorial y todo en esa pagina
 /*        
-
 */
         Node<T>* getRoot() {
             return this->root;
-        }
-
-        int getSize() {
-            return quantity;
-        }
-
-        bool isEmpty() {
-            return !quantity;
         }
 
         void inorder(Node<T> *temp) {

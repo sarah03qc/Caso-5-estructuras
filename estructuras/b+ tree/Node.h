@@ -19,13 +19,14 @@ class Node {
     public:
         Node() {
             key = new T[M];
-            ptr = new Node *[M + 1];
+            ptr = new Node<T> *[M + 1];
             data = NULL;
         }
 
         Node(T *pData) {
             key = new T[M];
             this->data = pData;
+            ptr = new Node<T> *[M + 1];
         }
 
         T* getKeys() { //hmmm
