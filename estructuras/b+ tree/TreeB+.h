@@ -9,18 +9,16 @@
 #define TREEBP 1
 
 template <class T>
-class TreeBp {   //BASADO EN EL AVL TREE, ESTAMOS INTENTANDO ADAPTARLO A SER B+
+class TreeBp {  
     private:
         Node<T> *root;
-        int quantity;
 
     public:
         TreeBp() {
             root = NULL;
-            quantity = 0;
         }
 
-        void insert(T data) {   //NOS ESTAMOS BASANDO EN EL ALGORITMO COMENTADO ABAJO
+        void insert(T data) {   
             if(root == NULL) {
                 root = new Node<T>();
                 root->getKeys()[0] = data;
@@ -188,30 +186,36 @@ class TreeBp {   //BASADO EN EL AVL TREE, ESTAMOS INTENTANDO ADAPTARLO A SER B+
           }
         }
 
-//ALGORITMO SACADO DE: https://www.programiz.com/dsa/insertion-on-a-b-plus-tree
-//tutorial y todo en esa pagina
-/*        
-*/
+        Node<T>* find(T data) {
+          if(root == NULL) {
+            cout << "El arbol se encuentra vacio" << endl;
+          } else {
+            Node<T> *temp = root;
+            while(temp->getIsLeaf() == false) {
+              for(int i = 0; i < temp->getSize(); i++) {
+                if(data < temp->getKeys()[i]) {
+                  temp = temp->getPtr()[i];
+                  break;
+                }
+                if(i == temp->getSize() - 1) {
+                  temp = temp->getPtr()[i + 1];
+                  break;
+                }
+              }
+            }
+            for(int i = 0; i < temp->getSize(); i++) {
+              if(temp->getKeys()[i] == data) {
+                cout << "Se encontro: " << temp->getKeys()[i] << endl;
+                return temp;
+              }
+            }
+            cout << "No se encontro" << endl;
+            return NULL;
+          }
+        }
+
         Node<T>* getRoot() {
             return this->root;
-        }
-
-        void inorder(Node<T> *temp) {
-            //recibe root de param
-            if(temp != NULL) {
-                inorder(temp->getLeft());
-                cout << "Elemento: " << *temp->getData() << endl;
-                inorder(temp->getRight());
-            }
-        }
-
-        void destroy(Node<T> *toDestroy) {
-            if(toDestroy != NULL) {
-                destroy(toDestroy->getLeft());
-                destroy(toDestroy->getRight());
-                cout << "Destruyendo " << *toDestroy->getData() << endl;
-                delete toDestroy;
-            }
         }
 };
 

@@ -21,15 +21,10 @@ int main() {
     arbol->insert(15);
     arbol->insert(32);
 
-    for(int i = 0; i < 3; i++) {
-        cout << "root: " << arbol->getRoot()->getKeys()[i] << endl;  //hmmmmmmm
-    }
     
     arbol->recorrer(arbol->getRoot());
+    arbol->find(23);
 /*
-    
-
-
     arbol->insert("g");
     arbol->insert("a");
     arbol->insert("d");
@@ -37,7 +32,5 @@ int main() {
     arbol->insert("t");
     arbol->insert("s");
 */
-
-
     return 0;
 }

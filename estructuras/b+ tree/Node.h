@@ -10,7 +10,6 @@ using namespace std;
 template <class T>
 class Node {
     private:
-        T *data;
         bool isLeaf;
         Node **ptr;
         T *key;
@@ -20,16 +19,9 @@ class Node {
         Node() {
             key = new T[M];
             ptr = new Node<T> *[M + 1];
-            data = NULL;
         }
 
-        Node(T *pData) {
-            key = new T[M];
-            this->data = pData;
-            ptr = new Node<T> *[M + 1];
-        }
-
-        T* getKeys() { //hmmm
+        T* getKeys() { 
             return key;
         }
 
@@ -40,17 +32,6 @@ class Node {
         void setSize(int size) {
             this->size = size;
         }
-
-        T* getData() {
-            if(this == NULL) {
-                return NULL;
-            }
-            return data;
-        }
-
-        void setData(T *pData) {
-            this->data = pData;
-        } 
 
         Node** getPtr() {    
             return ptr;     

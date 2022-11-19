@@ -1,6 +1,3 @@
-// Searching on a B+ tree in C++
-
-//COMO DEBE FUNCIONAR, HAY QUE DEBUGGEAR PARA VER QUE PASA INTERNAMENTE Y COMPARARLO CON LO QUE PASA INTERNAMENTE EN EL NUESTRO
 
 #include <climits>
 #include <fstream>
