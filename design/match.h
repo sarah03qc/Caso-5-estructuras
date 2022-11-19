@@ -20,6 +20,9 @@
 //string demanda2 = "llantas de gran tamaño";
 
 class Match{
+    private:
+        Contenful* contenful = new Contenful();
+        vector<Registered*> usersRegistered;
     public:
     /*
         vector<string> strKeyWords(string pString){
@@ -100,6 +103,14 @@ class Match{
     }
     */
 
+   void comercioCircular(){
+    /*
+    comercio circular, se debe visualizar gráficamente, aquellos negocios de más de 3 participantes que generen una economía circular a partir de un nickname, es decir, que ese nickname inicie vendiendo o comprando a otra persona y que transitivamente el beneficio llegue al mismo nickname de partida. debe mostrar un diagrama graph de todos los posibles comercios circulares
+    */
+
+   
+   }
+
     list<string> strKeyWords(string pString){
         // se recibe el string de oferta o demanda y se acorta eliminando las palabras que sean menores o iguales
         // a tres letras, dejando asi palabras que sean significantes para el match
@@ -125,23 +136,82 @@ class Match{
         return shortedString;
     }
 
-    // este algoritmo es mas como lo que pide el profe
-    void match(Profile* pPerfil){
-        // nickname de partida
-        string nickName = pPerfil->getNickname();
-        // determina si va a analizar oferta o demanda de dicho nickname
-        if(pPerfil->getTieneOferta()){
-            /*
-             luego procede a crear un árbol B+ de orden M usando como índice fracciones de las palabras 
-             presentes en el texto, insertando en el bloque de datos la referencia al nickname respectivo
-            */
-            list<string> oferta = strKeyWords(pPerfil->getOferta());
-            TreeBp<string>* arbolB = new TreeBp<string>();
+    bool isMatch(TreeBp<string>* pArbolB){
+        bool esMatch = false;
+        vector<Node<string>>* nodes;
+        nodes = pArbolB->getNodes(pArbolB->getRoot(), nodes);
+        for(int index = 0; index > nodes->size(); ++index){
+            for(int counter = 0; counter > nodes->size(); ++counter){
+                if(nodes->at(index).getData() == nodes->at(counter).getData()){
+                    esMatch = true;
+                }
+            }
+        }
+    return esMatch;
+  
+        
+        
+        
+        return esMatch;
+    }
 
+    Registered* findNickName(string pNickname){
+        Registered* userFound;
+        for(Registered* user : usersRegistered){
+            if(user->getNickname() == pNickname){
+                userFound = user;
+            }
 
         }
-        else if (pPerfil->getTieneDemanda()){
+        return userFound;
 
+    }
+
+
+    list<string> match(string pNickname){
+        // toma un nickname de partida que se recibe por parametro
+        list<string> posibleMatches;
+        Registered* currentUser = findNickName(pNickname);
+        // determina si va a analizar oferta o demanda de dicho nickname
+        if(currentUser->getDemand() != ""){
+            list<string> demanda = strKeyWords(currentUser->getDemand());
+            // se mete al arbol cada oferta de cada registro para ver quien hace match con la demanda del usuario actual
+            for(Registered* user : usersRegistered){
+                TreeBp<string>* arbolB = new TreeBp<string>();
+                // luego procede a crear un árbol B+ de orden M usando como índice fracciones de las palabras presentes en el texto
+                for(string word : demanda){
+                    arbolB->insert(word);
+                }
+                // oferta del usuario actual 
+                list<string> oferta = strKeyWords(user->getOffer());
+                for(string word : oferta){
+                    arbolB->insert(word);
+                }
+                // se busca el match
+                if(isMatch(arbolB)){
+                    posibleMatches.push_back(user->getNickname());
+                }
+            }
+        }
+        else if (currentUser->getOffer() != ""){
+            list<string> oferta = strKeyWords(currentUser->getOffer());
+            // se mete al arbol cada oferta de cada registro para ver quien hace match con la demanda del usuario actual
+            for(Registered* user : usersRegistered){
+                TreeBp<string>* arbolB = new TreeBp<string>();
+                // luego procede a crear un árbol B+ de orden M usando como índice fracciones de las palabras presentes en el texto
+                for(string word : oferta){
+                    arbolB->insert(word);
+                }
+                // demanda del usuario actual 
+                list<string> demanda = strKeyWords(user->getDemand());
+                for(string word : demanda){
+                    arbolB->insert(word);
+                }
+                // se busca el match
+                if(isMatch(arbolB)){
+                    posibleMatches.push_back(user->getNickname());
+                }
+            }
         }
 
     }

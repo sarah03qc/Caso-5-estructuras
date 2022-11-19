@@ -25,6 +25,7 @@ class TreeBp {   //BASADO EN EL AVL TREE, ESTAMOS INTENTANDO ADAPTARLO A SER B+
                 root = new Node<T>();
                 root->getKeys()[0] = data;
                 root->setSize(1);
+                root->setIsLeaf(true);
             } else {
                 Node<T> *temp = root;
                 Node<T> *parent;
@@ -59,8 +60,8 @@ class TreeBp {   //BASADO EN EL AVL TREE, ESTAMOS INTENTANDO ADAPTARLO A SER B+
                   for(int i = 0; i < M; i++) {
                     virtualNode[i] = temp->getKeys()[i];
                   }
-                  int i = 0;
-                  while(data > virtualNode[i] && data < boost::lexical_cast<T>(M)) {
+                  int i = 0, j;
+                  while(data > virtualNode[i] && i < M) {
                     i++;
                   }
                   for(int j = M + 1; j > i; j--) {
