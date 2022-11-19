@@ -1,9 +1,9 @@
 #include <iostream>
 #include "grafo/grafo.h"
 #include <regex>
-#include <vector>
 #include "Profile.h"
 #include "../estructuras/b+ tree/TreeB+.h"
+#include "../socket/contenful.h"
 
 #define OFERTA 0
 #define DEMANDA 1
@@ -100,6 +100,31 @@ class Match{
     }
     */
 
+    list<string> strKeyWords(string pString){
+        // se recibe el string de oferta o demanda y se acorta eliminando las palabras que sean menores o iguales
+        // a tres letras, dejando asi palabras que sean significantes para el match
+        list<string>  dividedStr;
+        list<string>  shortedString;
+        regex re("\\s+");
+        
+        sregex_token_iterator iter(pString.begin(), pString.end(), re, -1);
+        sregex_token_iterator end;
+        
+        while (iter != end) {
+            if (iter->length()) {
+                dividedStr.push_back(*iter);  //divide la descripcion por palabras, y las almacena, hay que analizarlas
+            }
+            ++iter;
+        }
+
+        for(string word : dividedStr){
+            if(word.length() > 3){
+                shortedString.push_back(word);
+            }
+        }
+        return shortedString;
+    }
+
     // este algoritmo es mas como lo que pide el profe
     void match(Profile* pPerfil){
         // nickname de partida
@@ -110,7 +135,9 @@ class Match{
              luego procede a crear un árbol B+ de orden M usando como índice fracciones de las palabras 
              presentes en el texto, insertando en el bloque de datos la referencia al nickname respectivo
             */
-           TreeBp arbolB = new TreeBp();
+            list<string> oferta = strKeyWords(pPerfil->getOferta());
+            TreeBp<string>* arbolB = new TreeBp<string>();
+
 
         }
         else if (pPerfil->getTieneDemanda()){

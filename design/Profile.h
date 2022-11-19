@@ -4,6 +4,7 @@
 #include <regex>
 #include <vector>
 #include <list>
+#include "../socket/contenful.h"
 
 #ifndef PROFILE 
 #define PROFILE 1
@@ -26,22 +27,44 @@ class Profile {
         string descripcion;
         string queQuiere;
         string queOfrece;
+        Contenful* contenful = new Contenful();
+        vector<Registered*> usersRegistered;
+
 
     public:
-        Profile(string pnickname, string password1, string password2) {
-            //se debe chequear que el nickname sea unico, pero como? debemos tener esa info
-
-            // con contenful se podria conseguir todos los registros y verificar que sea correcto
-            // luego de ser correcto, le asignamos al perfil todos sus datos correspondientes
+        Profile(string pnickname, string password1, string password2, string pComprar, string pVender) {
+            // luego optimizamos para que no sea tanto codigo aqui
+            usersRegistered = contenful->getRecords();
+            bool registered = false;
             if(10 <= pnickname.length() && pnickname.length() <= 32) {
-                this->nickname = pnickname; 
-                if(password1 == password2) {
-                    this->password = password1;
-
-                    // luego de verificar los datos del usuario, llamamos al metodo de matcher para
-                    // que busque los
-                } else {
-                    cout << "Sus contrasenas no coinciden" << endl;
+                // se revisa que el nombre de usuario sea unico
+                for(Registered* user : usersRegistered){
+                    if (user->getNickname() == pnickname){
+                        registered = true;
+                    }
+                }
+                if(!registered){
+                    this->nickname = pnickname; 
+                    // se revisa que la contrasena sea de max 20 letras
+                    if (password1.length() <= 20 && password2.length() <= 20){
+                        // se revisa que sean iguales
+                        if(password1 == password2){
+                            this->password = password1;
+                            if(pComprar.length() <= 250 && pVender.length() <= 250){
+                                time_t now = time(0);
+                                tm *current = localtime(&now);
+                                contenful->registerUser(pnickname, pVender, pComprar, password1, current->tm_mday, 1 + current->tm_mon, 1900 + current->tm_year);
+                                // despues de registrarlo empezamos a buscar matches
+                            }
+                     
+                        }
+                        else{
+                            cout << "Sus contrasenas no coinciden" << endl;
+                        }
+                    }
+                }
+                else{
+                    cout << "Este nombre de usuario ya esta registrado" << endl;
                 }
             } else{
                 cout << "Verifique que su nombre de usuario este en el rango de longitud" << endl;

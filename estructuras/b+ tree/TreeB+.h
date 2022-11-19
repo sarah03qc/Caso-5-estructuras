@@ -84,6 +84,7 @@ class TreeBp {   //BASADO EN EL AVL TREE, ESTAMOS INTENTANDO ADAPTARLO A SER B+
                     newRoot->getKeys()[0] = newLeaf->getKeys()[0];
                     newRoot->getPtr()[0] = temp;
                     newRoot->getPtr()[1] = newLeaf;
+                    newRoot->setIsLeaf(false);
                     newRoot->setSize(1);
                     root = newRoot;
                   } else {
@@ -125,6 +126,7 @@ class TreeBp {   //BASADO EN EL AVL TREE, ESTAMOS INTENTANDO ADAPTARLO A SER B+
             for(int j = M + 1; j > i; j--) {
               virtualKey[j] = virtualKey[j - 1];
             }
+            virtualKey[i] = data;
             for(int j = M + 2; j > i + 1; j--) {
               virtualPtr[j] = virtualPtr[j - 1];
             }
