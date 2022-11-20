@@ -4,15 +4,15 @@
 
 using namespace std;
 
+#define LIMIT 5
 
 Contenful* contenful = new Contenful();
 vector<Registered*> usersRegistered;
 
-list<string> strKeyWords(string pString){
+list<string>separateWords(string pString){
         // se recibe el string de oferta o demanda y se acorta eliminando las palabras que sean menores o iguales
         // a tres letras, dejando asi palabras que sean significantes para el match
         list<string>  dividedStr;
-        list<string>  shortedString;
         regex re("\\s+");
         
         sregex_token_iterator iter(pString.begin(), pString.end(), re, -1);
@@ -24,10 +24,21 @@ list<string> strKeyWords(string pString){
             }
             ++iter;
         }
+        return dividedStr;
+}
 
-        for(string word : dividedStr){
-            if(word.length() > 3){
-                shortedString.push_back(word);
+list<string> strKeyWords(string pString){
+        list<string>  shortedString = separateWords(pString);
+        while(shortedString.size() < LIMIT){
+            for(string word : shortedString){
+                for(string word2 : shortedString){
+                    if(word.length() > word2.length() && word.length() > 3){
+                        shortedString.push_back(word);
+                    }
+                    else if (word2.length() > word.length() && word2.length() > 3){
+                        shortedString.push_back(word);
+                    }
+                }
             }
         }
         return shortedString;
@@ -37,6 +48,7 @@ list<string> strKeyWords(string pString){
         bool esMatch = false;
         vector<Node<string>>* nodes;
         nodes = pArbolB->getNodes(pArbolB->getRoot(), nodes);
+        nodes->at(0);
         for(int index = 0; index > nodes->size(); ++index){
             for(int counter = 0; counter > nodes->size(); ++counter){
                 if(nodes->at(index).getData() == nodes->at(counter).getData()){
@@ -44,12 +56,7 @@ list<string> strKeyWords(string pString){
                 }
             }
         }
-    return esMatch;
-  
-        
-        
-        
-        return esMatch;
+        return esMatch;  
     }
 
     Registered* findNickName(string pNickname){
@@ -116,6 +123,8 @@ list<string> strKeyWords(string pString){
 int main(){
     for(Registered* user : usersRegistered){
         cout << "Nombre: " << user->getNickname() << endl;
+        cout << "Oferta: " << user->getOffer() << endl;
+        cout << "Demanda: " << user->getDemand() << endl;
     }
 
 }
