@@ -3,7 +3,7 @@
 #include <sstream>
 #ifndef NODE 
 #define NODE 1
-#define M 3
+#define M 8
 
 using namespace std;
 

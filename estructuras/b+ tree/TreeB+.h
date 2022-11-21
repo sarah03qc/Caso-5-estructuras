@@ -186,6 +186,20 @@ class TreeBp {
           }
         }
 
+        vector<string>* getNodes(Node<T> *temp, vector<string>* pNodes){
+          if(temp != NULL){
+            for(int i = 0; i < temp->getSize(); i++) {
+              pNodes->push_back(temp->getKeys()[i]);
+            }
+            if(temp->getIsLeaf() != true) {
+              for(int i = 0; i < temp->getSize() + 1; i++) {
+                getNodes(temp->getPtr()[i], pNodes);
+              }
+            }
+          }
+          return pNodes;
+        }
+
         Node<T>* find(T data) {
           if(root == NULL) {
             cout << "El arbol se encuentra vacio" << endl;
