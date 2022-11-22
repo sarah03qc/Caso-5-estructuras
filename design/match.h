@@ -9,10 +9,12 @@
 
 class match{
 
-   void comercioCircular(){
+   void comercioCircular(string pNickname){
     /*
     comercio circular, se debe visualizar gráficamente, aquellos negocios de más de 3 participantes que generen una economía circular a partir de un nickname, es decir, que ese nickname inicie vendiendo o comprando a otra persona y que transitivamente el beneficio llegue al mismo nickname de partida. debe mostrar un diagrama graph de todos los posibles comercios circulares
     */
+   // en donde vamos a guardar todos los nicknames de los posubles comercios circulares
+   vector<vector<string>>* comerciosCirculares = new vector<vector<string>>();
    }
 
     vector<string>separateWords(string pString){
@@ -41,7 +43,7 @@ class match{
             for(int index = 0; index < separatedWords.size(); ++ index){
                 separatedWordsSize.push_back(separatedWords.at(index).length());
             } 
-            while(shortedString.size() < LIMIT){
+            while(shortedString.size() < LIMIT && shortedString.size() < separatedWords.size()){
                 int bigger = 0;
                 int counter = 0;
                 for(int index = 0; index < separatedWords.size(); ++ index){
@@ -116,9 +118,11 @@ class match{
         }
 
 
-        list<string> searchMatches(string pNickname, vector<Registered*> usersRegistered){
+        list<Registered*> searchMatches(string pNickname, string rangeOne = "", string rangeTwo = ""){
+            Contenful* contenful = new Contenful();
+            vector<Registered*> usersRegistered = contenful->getRecords();
             // toma un nickname de partida que se recibe por parametro
-            list<string> posibleMatches;
+            list<Registered*> posibleMatches;
             Registered* currentUser = findNickName(pNickname, usersRegistered);
             // determina si va a analizar oferta o demanda de dicho nickname
             if(currentUser->getDemand() != ""){
@@ -140,7 +144,7 @@ class match{
                             }
                             //se busca el match
                             if(isMatch(arbolB)){
-                                posibleMatches.push_back(user->getNickname());
+                                posibleMatches.push_back(user);
                             }
                         }                    
                     }
@@ -165,18 +169,14 @@ class match{
                             }
                             // se busca el match
                             if(isMatch(arbolB)){
-                                posibleMatches.push_back(user->getNickname());
+                                posibleMatches.push_back(user);
                             }
                         }
-                        
                     }
                 }
         }
         return posibleMatches;
     }
-
-
-
 };
 
 

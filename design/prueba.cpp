@@ -32,7 +32,7 @@ list<string> strKeyWords(string pString){
         for(int index = 0; index < separatedWords.size(); ++ index){
             separatedWordsSize.push_back(separatedWords.at(index).length());
         } 
-        while(shortedString.size() < LIMIT){
+        while(shortedString.size() < LIMIT && shortedString.size() < separatedWords.size()){
             int bigger = 0;
             int counter = 0;
             for(int index = 0; index < separatedWords.size(); ++ index){
@@ -106,10 +106,11 @@ list<string> strKeyWords(string pString){
 
     }
 
-
-    list<string> match(string pNickname, vector<Registered*> usersRegistered){
+    list<Registered*> match(string pNickname, string rangeOne = "", string rangeTwo = ""){
+        Contenful* contenful = new Contenful();
+        vector<Registered*> usersRegistered = contenful->getRecords();
         // toma un nickname de partida que se recibe por parametro
-        list<string> posibleMatches;
+        list<Registered*> posibleMatches;
         Registered* currentUser = findNickName(pNickname, usersRegistered);
         // determina si va a analizar oferta o demanda de dicho nickname
         if(currentUser->getDemand() != ""){
@@ -131,14 +132,13 @@ list<string> strKeyWords(string pString){
                         }
                         //se busca el match
                         if(isMatch(arbolB)){
-                            posibleMatches.push_back(user->getNickname());
+                            posibleMatches.push_back(user);
                         }
                     }                    
                 }
             }
         }
         if (currentUser->getOffer() != ""){
-            cout << "NO DEBERIA DE ENTRAR AQUI" << endl;
             list<string> oferta = strKeyWords(currentUser->getOffer());
             // se mete al arbol cada oferta de cada registro para ver quien hace match con la demanda del usuario actual
             for(Registered* user : usersRegistered){
@@ -156,7 +156,7 @@ list<string> strKeyWords(string pString){
                         }
                         // se busca el match
                         if(isMatch(arbolB)){
-                            posibleMatches.push_back(user->getNickname());
+                            posibleMatches.push_back(user);
                         }
                     }
                     
@@ -166,15 +166,12 @@ list<string> strKeyWords(string pString){
     return posibleMatches;
 }
     
-
 int main(){
-    Contenful* contenful = new Contenful();
-    vector<Registered*> usersRegistered = contenful->getRecords();
-    list<string> posibleMatches = match("CompuYankeeDev129", usersRegistered);
+    list<Registered*> posibleMatches = match("CompuYankeeDev129");
     cout << "---------------------------------------" << endl;
     cout << "POSIBLES MATCHES" << endl;
-    for(string nombre : posibleMatches){
-        cout << nombre << endl;
+    for(Registered* nombre : posibleMatches){
+        cout << nombre->getPostdate() << endl;
     }
     /*
     for(Registered* user : usersRegistered){
