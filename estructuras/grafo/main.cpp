@@ -39,7 +39,7 @@ int main() {
     grafo1.addArc(node4, node3, 2);
     grafo1.addArc(node0, node4, 14);
 
-    grafo1.dijkstra();
+    grafo1.dijkstra(grafo1.getNodo(0));
 
 /*
     // Ejercicio #1: 

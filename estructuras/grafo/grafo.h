@@ -144,7 +144,7 @@ class Grafo {
             return result;
         }
 
-        void dijkstra() {
+        void dijkstra(NodoGrafo *inicio) {
             //1. Mark all nodes as unvisited.
             for(int i = 0; i < listaNodos.size(); i ++) {
                 if(i != 0) {
@@ -156,7 +156,7 @@ class Grafo {
             }
             //3. Set the initial node as the current node.
             NodoGrafo *currentNode;
-            currentNode = hashNodos.begin()->second;
+            currentNode = inicio;
             currentNode->setDistance(0);
             cout << "Distancia de primer node actualizada a 0, node es " << currentNode->getInfo()->getId() << endl;
             

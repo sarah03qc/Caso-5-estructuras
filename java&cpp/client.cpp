@@ -13,24 +13,24 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
 
-	int sockfd; // socket file descriptor 
-	int portno = 8000; // port number
+	//conectarse al servidor
+
+	int sockfd; //descriptor de archivo socket
+	int portno = 8000; //numero de puerto
 	struct sockaddr_in serv_addr;
 	struct hostent *server;
 
 
-	const char * ip = "192.168.100.18";
-	//argv[1] = 192.168.100.18; // ip of server
-	//argv[2] = portno; // port number
+	const char * ip = "192.168.100.18";                     
 
-	sockfd = socket(AF_INET, SOCK_STREAM, 0); // generate file descriptor 
-	if (sockfd < 0) {
-		perror("ERROR opening socket");
+	sockfd = socket(AF_INET, SOCK_STREAM, 0); //generar el descriptor de archivo
+	if(sockfd < 0) {
+		perror("ERROR abriendo socket");
 	}
 
-	server = gethostbyname(ip); //the ip address (or server name) of the listening server.
-	if (server == NULL) {
-		fprintf(stderr,"ERROR, no such host\n");
+	server = gethostbyname(ip); //la direccion de ip del servidor
+	if(server == NULL) {
+		fprintf(stderr,"ERROR, no existe ese host\n");
 		exit(0);
 	}
 
@@ -39,25 +39,26 @@ int main(int argc, char *argv[]) {
 	bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
 	serv_addr.sin_port = htons(portno);
 
-	if (connect(sockfd,(struct sockaddr *)&serv_addr,sizeof(serv_addr)) < 0){
-		perror("ERROR connecting"); 
+	if(connect(sockfd,(struct sockaddr *)&serv_addr,sizeof(serv_addr)) < 0){
+		perror("ERROR conectandose"); 
 	}
 
+	//leer del socket
 	char rbuff[256];
 	int rbytes; 
 
-	//rbytes = read(sockfd, rbuff, sizeof(rbuff)); // read from socket and store the msg into buffer
-	rbytes = recv(sockfd, rbuff, sizeof(rbuff), 0); // similar to read(), but return -1 if socket closed
-	rbuff[rbytes] = '\0'; // set null terminal
+	rbytes = recv(sockfd, rbuff, sizeof(rbuff), 0); //parecido a read(), pero devuelve -1 si el socket cerro
+	rbuff[rbytes] = '\0'; //se setea terminal nula
 	printf("Message: %s\n", rbuff);
 
+	//escribir al socket
 	int wbytes;
 	char * wbuff; 
-	string str = "My Message!!";
-	wbuff = (char *)str.c_str(); // convert from string to c string, has to have \0 terminal 
+	string str = "El mensaje!!";
+	wbuff = (char *)str.c_str(); //se convierte de string a c string
 
 	wbytes = write(sockfd, wbuff, strlen(wbuff));
 	if(wbytes < 0) {
-		perror("Cannot write to socket");
+		perror("No se le puede escribir al socket");
 	} 
 }
