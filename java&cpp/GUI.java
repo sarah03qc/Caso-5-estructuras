@@ -40,6 +40,7 @@ public class GUI {
 				try {
 					GUI window = new GUI();
 					window.frame.setVisible(true);
+					window.sendRegistrationInfo();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
