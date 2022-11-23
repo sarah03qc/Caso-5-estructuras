@@ -8,7 +8,6 @@
 #include <stdio.h>
 #include <unistd.h>
 
-
 using namespace std;
 
 class Client {
@@ -53,7 +52,7 @@ class Client {
 			} 
 		}
 
-		void receive() {
+		string receive() {
 			sockfd = socket(AF_INET, SOCK_STREAM, 0); //generar el descriptor de archivo
 			if(sockfd < 0) {
 				perror("ERROR abriendo socket");
@@ -81,15 +80,6 @@ class Client {
 			rbytes = recv(sockfd, rbuff, sizeof(rbuff), 0); //parecido a read(), pero devuelve -1 si el socket cerro
 			rbuff[rbytes] = '\0'; //se setea terminal nula
 			printf("Message: %s\n", rbuff);
-			
+			return rbuff;
 		}
-	
-	
-}
-
-int main(int argc, char *argv[]) {
-
-	Client cliente;
-	cliente.receive();
-	
-}
+};
