@@ -128,6 +128,7 @@ public class GUI {
 				String textoOfferDescrip = offerDescrip.getText();
 				boolean valueDemandaCheck = demandaCheck.isSelected();
 				boolean valueOfferCheck = offerCheck.isSelected();
+<<<<<<< HEAD
 			
 				String[] variables = {textoNickname, textoPassword1, textoDemDescrip, textoOfferDescrip}; 
 
@@ -147,6 +148,28 @@ public class GUI {
 					ex.printStackTrace();
 				}
 				
+=======
+
+				if(textoPassword1 != textoPassword2) {
+					issue.setBounds(197, 50, 434, 60);
+					issue.setFont(new Font(FONT, Font.PLAIN, 13));
+					issue.setHorizontalAlignment(SwingConstants.CENTER);
+					frame.getContentPane().add(issue);
+				} else {
+					String[] variables = {textoNickname, textoPassword1, textoDemDescrip, textoOfferDescrip}; 
+
+					try {
+						server servidor = new server();
+
+						for(int i = 0; i < variables.length; i++) {
+							servidor.write(variables[i]);
+						}
+						servidor.closeSockets();
+					} catch(Exception ex) {
+						ex.printStackTrace();
+					}
+				}
+>>>>>>> 8a6e496e23a035c30a85b7d1f04204082c0a21a5
 			}
 		});
 		
