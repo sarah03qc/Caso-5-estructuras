@@ -302,7 +302,6 @@ class match{
             if(matchCounter >= 1){
                 esMatch = true;
             }
-            cout << esMatch << endl;
             return esMatch;
         }
 
