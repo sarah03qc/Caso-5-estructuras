@@ -8,8 +8,6 @@ import javax.swing.JTextField;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
-
 import javax.swing.JCheckBox;
 import javax.swing.JButton;
 
@@ -52,8 +50,8 @@ public class GUI {
 
 	private void initialize() {
 		frame = new JFrame();
-		frame.getContentPane().setBackground(SystemColor.activeCaption);
-		frame.getContentPane().setForeground(SystemColor.desktop);
+		//frame.getContentPane().setBackground(SystemColor.activeCaption);
+		//frame.getContentPane().setForeground(SystemColor.desktop);
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -115,8 +113,6 @@ public class GUI {
 		offerDescrip.setBackground(Color.WHITE);
 		offerDescrip.setBounds(234, 196, 166, 23);
 
-		JLabel issue = new JLabel("Las contrasenas no coinciden");
-
 		signupboton.addActionListener(new ActionListener() {
 
 			@Override
@@ -128,48 +124,15 @@ public class GUI {
 				String textoOfferDescrip = offerDescrip.getText();
 				boolean valueDemandaCheck = demandaCheck.isSelected();
 				boolean valueOfferCheck = offerCheck.isSelected();
-<<<<<<< HEAD
-			
-				String[] variables = {textoNickname, textoPassword1, textoDemDescrip, textoOfferDescrip}; 
 
+				String fullinfo = textoNickname + "," + textoPassword1 + "," + textoPassword2 + "," + textoDemDescrip + "," + textoOfferDescrip;
 				try {
 					server servidor = new server();
-					servidor.write(textoNickname);
-					servidor.closeSockets();
-					servidor.write(textoPassword1);
-					servidor.closeSockets();
-					servidor.write(textoPassword2);
-					servidor.closeSockets();
-					servidor.write(textoDemDescrip);
-					servidor.closeSockets();
-					servidor.write(textoOfferDescrip);
+					servidor.write(fullinfo);
 					servidor.closeSockets();
 				} catch(Exception ex) {
 					ex.printStackTrace();
 				}
-				
-=======
-
-				if(textoPassword1 != textoPassword2) {
-					issue.setBounds(197, 50, 434, 60);
-					issue.setFont(new Font(FONT, Font.PLAIN, 13));
-					issue.setHorizontalAlignment(SwingConstants.CENTER);
-					frame.getContentPane().add(issue);
-				} else {
-					String[] variables = {textoNickname, textoPassword1, textoDemDescrip, textoOfferDescrip}; 
-
-					try {
-						server servidor = new server();
-
-						for(int i = 0; i < variables.length; i++) {
-							servidor.write(variables[i]);
-						}
-						servidor.closeSockets();
-					} catch(Exception ex) {
-						ex.printStackTrace();
-					}
-				}
->>>>>>> 8a6e496e23a035c30a85b7d1f04204082c0a21a5
 			}
 		});
 		
