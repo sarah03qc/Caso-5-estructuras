@@ -20,7 +20,7 @@ class Client {
 		const char * ip = "192.168.100.18";  
 
 	public:
-		send(string mensaje) {
+		void send(string mensaje) {
 			sockfd = socket(AF_INET, SOCK_STREAM, 0); //generar el descriptor de archivo
 			if(sockfd < 0) {
 				perror("ERROR abriendo socket");
@@ -53,7 +53,7 @@ class Client {
 			} 
 		}
 
-		receive() {
+		void receive() {
 			sockfd = socket(AF_INET, SOCK_STREAM, 0); //generar el descriptor de archivo
 			if(sockfd < 0) {
 				perror("ERROR abriendo socket");
@@ -90,6 +90,6 @@ class Client {
 int main(int argc, char *argv[]) {
 
 	Client cliente;
-	cliente.send("hello world");
+	cliente.receive();
 	
 }

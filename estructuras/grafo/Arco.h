@@ -7,12 +7,12 @@ using namespace std;
 
 class Arco {
     private:
-        void* origen;
-        void* destino;
+        NodoGrafo* origen;
+        NodoGrafo* destino;
         int peso;
 
     public:
-        Arco(void* pOrigen, void* pDestino, int pPeso) {
+        Arco(NodoGrafo* pOrigen, NodoGrafo* pDestino, int pPeso) {
             this->origen = pOrigen;
             this->destino = pDestino;
             this->peso = pPeso;

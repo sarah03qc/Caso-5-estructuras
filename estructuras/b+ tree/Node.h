@@ -10,6 +10,7 @@ using namespace std;
 template <class T>
 class Node {
     private:
+        T* data;
         bool isLeaf;
         Node **ptr;
         T *key;
@@ -31,6 +32,10 @@ class Node {
 
         void setSize(int size) {
             this->size = size;
+        }
+
+        T* getData(){
+            
         }
 
         Node** getPtr() {    
