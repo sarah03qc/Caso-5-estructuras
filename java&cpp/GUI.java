@@ -1,4 +1,3 @@
-
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -40,7 +39,6 @@ public class GUI {
 				try {
 					GUI window = new GUI();
 					window.frame.setVisible(true);
-					window.sendRegistrationInfo();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -116,6 +114,41 @@ public class GUI {
 		offerDescrip.setColumns(12);
 		offerDescrip.setBackground(Color.WHITE);
 		offerDescrip.setBounds(234, 196, 166, 23);
+
+		JLabel issue = new JLabel("Las contrasenas no coinciden");
+
+		signupboton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String textoNickname = Nickname.getText();
+				String textoPassword1 = passwordInput1.getText();
+				String textoPassword2 = passwordInput2.getText();
+				String textoDemDescrip = demDescrip.getText();
+				String textoOfferDescrip = offerDescrip.getText();
+				boolean valueDemandaCheck = demandaCheck.isSelected();
+				boolean valueOfferCheck = offerCheck.isSelected();
+			
+				String[] variables = {textoNickname, textoPassword1, textoDemDescrip, textoOfferDescrip}; 
+
+				try {
+					server servidor = new server();
+					servidor.write(textoNickname);
+					servidor.closeSockets();
+					servidor.write(textoPassword1);
+					servidor.closeSockets();
+					servidor.write(textoPassword2);
+					servidor.closeSockets();
+					servidor.write(textoDemDescrip);
+					servidor.closeSockets();
+					servidor.write(textoOfferDescrip);
+					servidor.closeSockets();
+				} catch(Exception ex) {
+					ex.printStackTrace();
+				}
+				
+			}
+		});
 		
 		
 		frame.getContentPane().setLayout(null);
@@ -136,39 +169,6 @@ public class GUI {
 	}
 	
 	public void sendRegistrationInfo() {
-		signupboton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String textoNickname = Nickname.getText();
-				String textoPassword1 = passwordInput1.getText();
-				String textoPassword2 = passwordInput2.getText();
-				String textoDemDescrip = demDescrip.getText();
-				String textoOfferDescrip = offerDescrip.getText();
-				boolean valueDemandaCheck = demandaCheck.isSelected();
-				boolean valueOfferCheck = offerCheck.isSelected();
-
-				if(textoPassword1 != textoPassword2) {
-					JLabel issue = new JLabel("Las contrasenas no coinciden");
-					issue.setBounds(0, 11, 434, 60);
-					issue.setFont(new Font(FONT, Font.PLAIN, 13));
-					issue.setHorizontalAlignment(SwingConstants.CENTER);
-					frame.getContentPane().add(issue);
-				} else {
-					String[] variables = {textoNickname, textoPassword1, textoDemDescrip, textoOfferDescrip}; 
-
-					try {
-						server servidor = new server();
-
-						for(int i = 0; i < variables.length; i++) {
-							servidor.write(variables[i]);
-						}
-						servidor.closeSockets();
-					} catch(Exception ex) {
-						ex.printStackTrace();
-					}
-				}
-			}
-		});
+		
 	}
 }
