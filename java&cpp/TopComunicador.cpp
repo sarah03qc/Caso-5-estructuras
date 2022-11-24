@@ -23,7 +23,7 @@ class TopComunicador {
             }
             fullstr = elems[0] + "," + elems[1] + "," + elems[2] + "," + elems[3] + "," + elems[4] + "," + elems[5] + "," + elems[6] + "," + elems[7] + "," + elems[8] + "," + elems[9] + "," + elems[10];
             Client cliente ;
-            cliente.send(fullstr)
+            cliente.send(fullstr);
     
         }
 };
@@ -31,5 +31,5 @@ class TopComunicador {
 
 int main(){
     TopComunicador comtop;
-    comptop.sendTopInfo();
+    comtop.sendTopInfo();
 }

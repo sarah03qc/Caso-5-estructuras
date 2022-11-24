@@ -5,6 +5,7 @@
 #include <vector>
 #include <list>
 #include "../socket/contenful.h"
+#include "match.h"
 
 #ifndef PROFILE 
 #define PROFILE 1
@@ -55,6 +56,9 @@ class Profile {
                                 tm *current = localtime(&now);
                                 contenful->registerUser(pnickname, pVender, pComprar, password1, current->tm_mday, 1 + current->tm_mon, 1900 + current->tm_year);
                                 // despues de registrarlo empezamos a buscar matches
+                                match* matcher = new match();
+                                matcher->searchMatches(this->nickname);
+                                
                             }
                      
                         }

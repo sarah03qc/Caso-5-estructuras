@@ -1,11 +1,10 @@
-
-
 public class Receiver {
 
     public void getTopInfo() throws Exception {
         server servidor = new server();
         String full = servidor.read();
         String[] all = full.split("[,], 0");
+
         Top10 top = new Top10();
         top.setProd1(all[0]);
         top.setProd2(all[1]);
@@ -18,5 +17,10 @@ public class Receiver {
         top.setProd9(all[8]);
         top.setProd10(all[9]);
         servidor = new server();
+    }
+
+    public static void main(String[] args)throws Exception{
+        Receiver receiver = new Receiver();
+        receiver.getTopInfo();
     }
 }
