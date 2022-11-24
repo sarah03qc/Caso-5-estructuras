@@ -12,9 +12,13 @@ class Receiver {
 
         void getProfileInfo() {
             Client cliente ;
+<<<<<<< HEAD
             
             string fullinfo = cliente.receive(); 
             cout << "paso por el receiver" << endl;
+=======
+            string fullinfo = cliente.receive(); 
+>>>>>>> cb7c5d8ea0305d2ec1e0c56e9e12341f8c7fde7d
             string nombre;
             string pass1;
             string pass2;
@@ -27,6 +31,7 @@ class Receiver {
             
             sregex_token_iterator iter(fullinfo.begin(), fullinfo.end(), re, -1);
             sregex_token_iterator end;
+<<<<<<< HEAD
             cout << "termino regex" << endl;
             
             
@@ -35,6 +40,12 @@ class Receiver {
                 if (iter->length()) {
                     cout << *iter << endl;
                     elems.push_back(*iter);
+=======
+            
+            while (iter != end) {
+                if (iter->length()) {
+                    elems.push_back(*iter);  //divide por las comas
+>>>>>>> cb7c5d8ea0305d2ec1e0c56e9e12341f8c7fde7d
                 }
                 ++iter;
             }  
@@ -42,8 +53,13 @@ class Receiver {
             nombre = elems[0];
             pass1 = elems[1];
             pass2 = elems[2];
+<<<<<<< HEAD
             descrDem = elems[3];
             descrOffer = elems[4];       
+=======
+            descrOffer = elems[3];
+            descrDem = elems[4];       
+>>>>>>> cb7c5d8ea0305d2ec1e0c56e9e12341f8c7fde7d
 
 
             //se genera el perfil con la informacion sacada de los sockets
