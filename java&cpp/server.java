@@ -5,13 +5,13 @@ import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class server{
+public class server {
     //declarar variables de socket y hacer la conexion
     private static ServerSocket serverSocket = null;
     private static Socket clientSocket = null;
 
     public server()throws Exception{
-        serverSocket = new ServerSocket(6000); //8000 es el numero de puerto
+        serverSocket = new ServerSocket(6000); //es el numero de puerto
         System.out.println("Esperando conexion");
         clientSocket = serverSocket.accept(); //se pone en pausa a escuchar hasta que se haga una conexion
     }

@@ -1,12 +1,11 @@
 #include <string>
 #include <iostream>
 #include "../design/Profile.h"
-#include <cstring>
 #include "client.h"
 
 using namespace std;
 
-class Receiver {
+class TopComunicador {
  
     public: 
 
@@ -46,6 +45,7 @@ class Receiver {
             cout << "nombre " << nombre << endl;
             cout << "pass1 " << pass1 << endl;
             cout << "pass2 " << pass2 << endl;
+            cout << "descrOffer " << descrOffer << endl;
             cout << "descrDem " << descrDem << endl;
             cout << "descrOffer " << descrOffer << endl;
 
