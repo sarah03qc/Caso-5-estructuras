@@ -1,7 +1,7 @@
 #include <string>
 #include <iostream>
 #include "../design/Profile.h"
-#include <regex>
+#include <cstring>
 #include "client.h"
 
 using namespace std;
@@ -26,9 +26,9 @@ class Receiver {
             string descrDem;   
 
             vector<string> elems;
-            //regex re("\\s+");
-            regex re(",");
+            stringstream ss(fullinfo);
             
+<<<<<<< HEAD
             sregex_token_iterator iter(fullinfo.begin(), fullinfo.end(), re, -1);
             sregex_token_iterator end;
 <<<<<<< HEAD
@@ -49,6 +49,17 @@ class Receiver {
                 }
                 ++iter;
             }  
+=======
+            while(ss.good()) {
+                string substr;
+                getline(ss, substr, ',');
+                elems.push_back(substr);
+            }
+            
+            for(int i = 0; i < elems.size(); i++) {
+                cout << elems[i] << endl;
+            }
+>>>>>>> 7136ef8 (revisando3)
 
             nombre = elems[0];
             pass1 = elems[1];
@@ -67,6 +78,10 @@ class Receiver {
             cout << "nombre " << nombre << endl;
             cout << "pass1 " << pass1 << endl;
             cout << "pass2 " << pass2 << endl;
+<<<<<<< HEAD
+=======
+            cout << "descrOffer " << descrOffer << endl;
+>>>>>>> 7136ef8 (revisando3)
             cout << "descrDem " << descrDem << endl;
             cout << "descrOffer " << descrOffer << endl;
 

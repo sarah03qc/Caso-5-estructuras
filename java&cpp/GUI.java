@@ -124,12 +124,16 @@ public class GUI {
 				String textoOfferDescrip = offerDescrip.getText();
 				boolean valueDemandaCheck = demandaCheck.isSelected();
 				boolean valueOfferCheck = offerCheck.isSelected();
-<<<<<<< HEAD
-				
-=======
 
->>>>>>> cb7c5d8ea0305d2ec1e0c56e9e12341f8c7fde7d
-				String fullinfo = textoNickname + "," + textoPassword1 + "," + textoPassword2 + "," + textoDemDescrip + "," + textoOfferDescrip;
+				String fullinfo;
+				if(textoDemDescrip == null) {
+					fullinfo = textoNickname + "," + textoPassword1 + "," + textoPassword2 + "," + " " + "," + textoOfferDescrip;
+				} else if(textoOfferDescrip == null) {
+					fullinfo = textoNickname + "," + textoPassword1 + "," + textoPassword2 + "," + textoDemDescrip + "," + " ";
+				} else {
+					fullinfo = textoNickname + "," + textoPassword1 + "," + textoPassword2 + "," + textoDemDescrip + "," + textoOfferDescrip;
+				}
+
 				try {
 					server servidor = new server();
 					servidor.write(fullinfo);
@@ -158,7 +162,4 @@ public class GUI {
 		frame.getContentPane().add(offerDescrip);
 	}
 	
-	public void sendRegistrationInfo() {
-		
-	}
 }
