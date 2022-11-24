@@ -35,11 +35,9 @@ class match{
                 allPosibleMatches->push_back(posibleMatches);
             }
         }
-
+/*
         void comercioCircular(string pNickname){
-        /*
         comercio circular, se debe visualizar gráficamente, aquellos negocios de más de 3 participantes que generen una economía circular a partir de un nickname, es decir, que ese nickname inicie vendiendo o comprando a otra persona y que transitivamente el beneficio llegue al mismo nickname de partida. debe mostrar un diagrama graph de todos los posibles comercios circulares
-        */
         // en donde vamos a guardar todos los nicknames de los posibles comercios circulares
             vector<vector<string>> *comerciosCirculares = new vector<vector<string>>();
             vector<vector<Registered*>> allPosibleMatches;
@@ -79,21 +77,23 @@ class match{
             }
         }
 
-        // no usar la matriz, usar la misma representacion de relaciones del grafo
-        //hashtable para guardar los nodos
-        // para que asi sea mas facil de indexar y conseguir nodos
 
-        void cerraduraTransitiva(Grafo* grafoDeMatches, vector<vector<string>> *comerciosCirculares){
+        void cerraduraTransitiva(Grafo* grafoDeMatches, vector<vector<NodoGrafo*>*> *comerciosCirculares){
             vector<NodoGrafo*> listaNodos = grafoDeMatches->getListaNodos();
             // se recorre cada nodo del grafo
             // por cada nodo se recorre sus adyacentes 
             for(int currentNode = 0; currentNode < listaNodos.size(); ++currentNode){
+                vector<NodoGrafo*>* newList;
                 // guardamos el nodo actual que estamos revisando
                 NodoGrafo* mainNode = listaNodos.at(currentNode);
+                newList->push_back(mainNode);
                 if(mainNode->getArcs() != NULL){
+                    vector<NodoGrafo*>* neighbourList;
+                    addElementsToList(newList, neighbourList);
                     // recorremos cada nodo vecino
                     for(int neighbourNode = 0; neighbourNode < mainNode->getArcs()->size(); ++ neighbourNode){
-
+                        NodoGrafo* newCurrent = mainNode->getArcs()->at(neighbourNode)->getDestino();
+                        transitive(newCurrent, mainNode, comerciosCirculares, neighbourList);
                     }
                 }
                 // se ve cada conexion del nodo para ver si se devuelve a si mismo
@@ -105,21 +105,91 @@ class match{
         }
         // por cada nodo vecino corremos este metodo
 
-        bool transitive(int currentNode, int destinyNode, Grafo* grafoDeMatches){
-            bool* visited = new bool[grafoDeMatches->getListaNodos().size()];
-            vector<NodoGrafo*> *posiblePath = new vector<NodoGrafo*> ();
-            int* path = new int[grafoDeMatches->getListaNodos().size()];
-            int index = 0;
-
-            for(int count = 0; count < grafoDeMatches->getListaNodos().size(); ++count){
-                visited[count] = false;
+        void transitive(NodoGrafo* currentNode, NodoGrafo* destinyNode, vector<vector<NodoGrafo*>*> *comerciosCirculares, vector<NodoGrafo*>* list){
+            
+            if(currentNode->getInfo()->getId() == destinyNode->getInfo()->getId()){
+                comerciosCirculares->push_back(list);
             }
-            //vector<vector<string>> *comerciosCirculares = pathBuilder(currentNode, destinyNode, visited, path, index, grafoDeMatches);
+            else{
+                for(int neighbourNode = 0; neighbourNode < currentNode->getArcs()->size(); ++ neighbourNode){
+                    vector<NodoGrafo*>* newList = new vector<NodoGrafo*>();
+                    addElementsToList(list, newList);
+                    NodoGrafo* newCurrent = currentNode->getArcs()->at(neighbourNode)->getDestino();
+                    newList->push_back(newCurrent);
+                    transitive(currentNode, destinyNode, comerciosCirculares, newList);
+
+                }
 
 
+            }
+            
         }
 
-        void top10(){
+        // se empieza desde un el primer nodo 
+        // se agrega el primer nodo a la lista
+        // por cada vecino creando otra lista con el camino ya recorrido + el vecino
+        // iteramos lo anterior hasta que encuentre al primer nodo o llegue a un nodo que no tenga vecinos
+        // y asi vamos construyendo las relaciones transtitivas
+
+        // -----
+        // es lo mismo solo que uno es con una lista y el otro con un hastable
+        // -----
+
+        // se crea un hashtable de los nodos del grafo
+        // se revisa uno por uno indexando en el hashtable los vecinos 
+        // seguimos indexando hasta que haya uno que llegue a al nodo inicial
+
+
+        // metodo para ir agregando los elementos ya recorridos a una lista nueva
+        void addElementsToList(vector<NodoGrafo*>* toAdd, vector<NodoGrafo*>* list){
+            for(int index = 0; index < toAdd->size(); ++index){
+                list->push_back(toAdd->at(index));
+            }
+
+        }
+*/
+
+        map<string, int> getMostRepeatedStrings(){
+            vector<string>* mostRepeated = new vector<string>();
+            // de los usuarios top sacamos los temas que mas se repiten
+            map<string, int>  topUsers = top10_Users();
+            map<string, int> topProductos;
+            map<string, int> words;
+            for(auto itr = topUsers.begin(); itr != topUsers.end(); ++itr){
+                int index = findRegisterIndex(itr->first);
+                Registered* currentUser = usersRegistered.at(index);
+                if(currentUser->getDemand() != ""){
+                    list<string> demanda = strKeyWords(currentUser->getDemand());
+                    for(string word : demanda){
+                        words[word]++;
+                    }
+                }
+                else if(currentUser->getOffer() != ""){
+                    list<string> oferta = strKeyWords(currentUser->getOffer());
+                    for(string word : oferta){
+                        words[word]++;
+                    }
+                }
+            }
+            topProductos = getTenHighest(words, topProductos);
+            return topProductos;
+        }
+
+
+
+        
+        int findRegisterIndex(string pNickname){
+            for(int index = 0; index < usersRegistered.size(); ++index){
+                if(usersRegistered.at(index)->getNickname() == pNickname){
+                    return index;
+                }
+            }
+        }
+
+
+
+        map<string, int>  top10_Users(){
+            // si queremos los top 10 usuarios con mas matches
             map<string, int> mapaHash;
             map<string, int> topTen;
             // se agrega todos los nombres
@@ -133,28 +203,11 @@ class match{
                     mapaHash[allPosibleMatches->at(vector).at(vectorMatches)->getNickname()]++;
                 }
             }
-            /*
-            for(auto itr = mapaHash.begin(); itr != mapaHash.end(); ++itr){
-                string clave = itr->first;
-                int valor = itr->second;
-                cout << clave << " " << valor << endl;
-            }
-            */
 
-            cout << "LLEGA A TOP 10" << endl;
             topTen = getTenHighest(mapaHash, topTen);
-            for(auto itr = topTen.begin(); itr != topTen.end(); ++itr){
-                string clave = itr->first;
-                int valor = itr->second;
-                cout << clave << " " << valor << endl;
-            }
-
-
-
-
-            
-
+            return topTen;
         }
+
 
         map<string, int> getTenHighest(map<string, int> mapaHash, map<string, int> topTen){
             for(int contador = 0; contador < 10 ; ++contador ){
@@ -181,7 +234,6 @@ class match{
                 }
             }
             return clave;
-
         }
 
         void findPosibleMatches(){
@@ -192,32 +244,6 @@ class match{
                 allPosibleMatches->push_back(posibleMatches);
             }
         }
-
-
- /*
-        bool pathBuilder(int currentNode, int destinyNode, bool visited[], int path[], int index, Grafo* grafoDeMatches){
-            visited[currentNode] = true;
-            path[index] = currentNode;
-            ++index;
-
-            if(currentNode == destinyNode){
-                return path;
-            }
-            else{
-                // para cada vecino del nodo
-                for(Arco* arco : grafoDeMatches->getNodo(currentNode)->getArcs()){
-                    if(!visited[index]){
-                        pathBuilder(currentNode, destinyNode, visited, path, index, grafoDeMatches);
-                    }
-                }
-            }
-            --index;
-            visited[currentNode] = false;
-        }
-        */
-
-
-
 
         int findIndex(string pNickname){
             for(int contador = 0; contador < usersRegistered.size(); ++contador){

@@ -1,8 +1,14 @@
 #include "match.h"
+
 int main(){
     
     match* matcher = new match();
-    matcher->top10();
+    map<string, int> topProductos = matcher->getMostRepeatedStrings();
+    for(auto itr = topProductos.begin(); itr != topProductos.end(); ++itr){
+        string clave = itr->first;
+        int valor = itr->second;
+        cout << clave << " " << valor << endl;
+    }
     /*
     vector<Registered*> posibleMatches = matcher->searchMatches("CompuYankeeDev129");
     cout << "---------------------------------------" << endl;
