@@ -74,10 +74,10 @@ public class GUI {
 		passwordInput1.setBounds(306, 77, 94, 20);
 		
 		password.setFont(new Font(FONT, Font.PLAIN, 11));
-		password.setBounds(326, 57, 56, 14);
+		password.setBounds(326, 57, 70, 14);
 		
-		regist.setFont(new Font(FONT, Font.PLAIN, 11));
-		regist.setBounds(197, 43, 63, 14);
+		regist.setFont(new Font(FONT, Font.PLAIN, 10));
+		regist.setBounds(197, 43, 70, 14);
 		
 		demandaCheck.setFont(new Font(FONT, Font.PLAIN, 14));
 		demandaCheck.setBounds(27, 159, 97, 23);
@@ -86,7 +86,7 @@ public class GUI {
 		offerCheck.setBounds(27, 196, 97, 23);
 		
 		select.setFont(new Font(FONT, Font.PLAIN, 11));
-		select.setBounds(50, 135, 49, 14);
+		select.setBounds(50, 135, 65, 14);
 		
 		demDescrip.setFont(new Font(FONT, Font.PLAIN, 13));
 		demDescrip.setHorizontalAlignment(SwingConstants.CENTER);
@@ -95,10 +95,10 @@ public class GUI {
 		demDescrip.setBounds(234, 159, 166, 23);
 		
 		descrip.setFont(new Font(FONT, Font.PLAIN, 11));
-		descrip.setBounds(269, 141, 110, 14);
+		descrip.setBounds(269, 141, 125, 14);
 		
 		signupboton.setFont(new Font(FONT, Font.PLAIN, 13));
-		signupboton.setBounds(181, 227, 79, 23);
+		signupboton.setBounds(181, 227, 87, 23);
 		
 		passwordInput2.setHorizontalAlignment(SwingConstants.CENTER);
 		passwordInput2.setFont(new Font(FONT, Font.PLAIN, 13));
