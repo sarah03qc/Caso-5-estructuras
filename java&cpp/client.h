@@ -13,7 +13,7 @@ using namespace std;
 class Client {
 	private:
 		int sockfd; //descriptor de archivo socket
-		int portno = 8000; //numero de puerto
+		int portno = 6000; //numero de puerto
 		struct sockaddr_in serv_addr;
 		struct hostent *server;
 		const char * ip = "192.168.100.18";  
