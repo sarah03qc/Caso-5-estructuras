@@ -25,7 +25,7 @@ public class server {
 
     }
 
-    public static void read() throws Exception {
+    public static String read() throws Exception {
 
         //leer del socket
         String inputLine; 
@@ -33,6 +33,7 @@ public class server {
         while((inputLine = in.readLine()) != null){
             System.out.println(inputLine);
         }
+        return inputLine;
     }
 
     public static void closeSockets()throws Exception{
