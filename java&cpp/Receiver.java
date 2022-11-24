@@ -3,7 +3,7 @@
 public class Receiver {
 
     public void getTopInfo() throws Exception {
-        server servidor;
+        server servidor = new server();
         String full = servidor.read();
         String[] all = full.split("[,], 0");
         Top10 top = new Top10();
