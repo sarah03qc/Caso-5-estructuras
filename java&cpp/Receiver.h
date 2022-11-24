@@ -22,24 +22,7 @@ class Receiver {
             string descrDem;   
 
             vector<string> elems;
-            stringstream ss(fullinfo);
-            
-            cout << "termino regex" << endl;
-            
-            
-            while (iter != end) {
-                cout << "entro al while" << endl;
-                if (iter->length()) {
-                    cout << *iter << endl;
-                    elems.push_back(*iter);
-
-            
-            while (iter != end) {
-                if (iter->length()) {
-                    elems.push_back(*iter);  //divide por las comas
-                }
-                ++iter;
-            }  
+            stringstream ss(fullinfo); 
 
             while(ss.good()) {
                 string substr;

@@ -143,7 +143,7 @@ public class GUI {
 				}
 			}
 		});
-		//s
+		
 		
 		frame.getContentPane().setLayout(null);
 		frame.getContentPane().add(namelogo);
